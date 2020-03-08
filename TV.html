@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TV siu hịn</title>
+</head>
+<body>
+<input type="button" onclick="tvOn()" value="tv ON">
+<input type="button" onclick="tvOff()" value="tv Off">
+<input type="button" onclick="changemalutal()" value="change malutal">
+<input type="button" onclick="changeremote()" value="change remote">
+<input type="button" onclick="volumeUp()" value="volume Up">
+<input type="button" onclick="tvOff_remote()" value="tv off remote">
+<script>
+    let Remote = function (model) {
+        this.model = model;
+        this.remote = function (tivi, number) {
+            tivi.changeChannel(number)
+        };
+        this.getStatus = function (tivi,value) {
+            tivi.setStatus(value);
+        }
+    };
+    DEFAULT_VOLUME = 10;
+    DEFAULT_CHANNEL = 1;
+    let Tivi = function (status) {
+        this.recentChannel = DEFAULT_CHANNEL;
+        this.getRecentChannel = function () {
+            return this.recentChannel;
+        };
+        this.recentVolume = DEFAULT_VOLUME;
+        this.getRecentVolume = function () {
+            return this.recentVolume;
+        };
+        this.setVolumeUp =function (number) {
+            this.recentVolume = this.recentVolume + number;
+        };
+        this.status = status;
+        this.setStatus = function (value) {
+            this.status = value;
+        };
+        this.changeChannel = function (channel_number) {
+            this.recentChannel = channel_number;
+        };
+    };
+    let remote = new Remote('samsung');
+    let tivi = new Tivi('off');
+    function tvOn() {
+        tivi.setStatus('ON');
+        alert('TV ON')
+    }
+    function tvOff() {
+        tivi.setStatus('OFF');
+        alert('TV OFF')
+    }
+    function changemalutal() {
+        if (tivi.status === "ON"){
+            number = prompt('chọn kênh');
+            tivi.changeChannel(number);
+            alert(tivi.recentChannel);
+        }
+    }
+    function changeremote() {
+        if (tivi.status === 'ON'){
+            let number = prompt("chọn kênh");
+            remote.remote(tivi.number);
+            alert(tivi.recentChannel);
+        }
+    }
+    function volumeUp() {
+        if (tivi.status === 'ON'){
+            alert("Recent volume: " + tivi.recentVolume);
+            tivi.setVolumeUp(2);
+            alert("volume up ---> recent volume: " + tivi.recentVolume);
+        }
+    }
+    function tvOff_remote() {
+        remote.setStatus(tivi,"Off");
+        alert(tivi.status)
+    }
+</script>
+</body>
+</html>
